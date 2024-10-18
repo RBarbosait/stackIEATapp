@@ -3,7 +3,12 @@
 import { useState } from 'react'
 import { Plus, X } from 'lucide-react'
 
-export default function IngredientForm({ onSubmit, ingredients: initialIngredients }: { onSubmit: (ingredients: string[], restrictToIngredients: boolean) => void, ingredients: string[] }) {
+interface IngredientFormProps {
+  onSubmit: (ingredients: string[], restrictToIngredients: boolean) => void
+  ingredients: string[]
+}
+
+export default function IngredientForm({ onSubmit, ingredients: initialIngredients }: IngredientFormProps) {
   const [ingredients, setIngredients] = useState<string[]>(initialIngredients)
   const [newIngredient, setNewIngredient] = useState('')
 

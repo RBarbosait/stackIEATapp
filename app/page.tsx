@@ -1,11 +1,10 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { motion } from 'framer-motion'
 import IngredientForm from './components/IngredientForm'
 import MenuList from './components/MenuList'
 import SplashScreen from './components/SplashScreen'
-import { generateMenu } from './actions/generateMenu'
-import { motion } from 'framer-motion'
 
 interface Menu {
   title: string
@@ -31,8 +30,20 @@ export default function Home() {
     setError(null)
     try {
       const ingredientsToUse = newIngredients || ingredients
-      const result = await generateMenu(ingredientsToUse, restrictToIngredients, isCeliac, isDiabetic)
-      if (result.success && result.menus) {
+      const response = await fetch('/api/generate-menu', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ingredients: ingredientsToUse,
+          restrictToIngredients,
+          isCeliac,
+          isDiabetic
+        }),
+      })
+      const result = await response.json()
+      if (result.success && Array.isArray(result.menus)) {
         setMenus(result.menus)
         if (newIngredients) {
           setIngredients(newIngredients)

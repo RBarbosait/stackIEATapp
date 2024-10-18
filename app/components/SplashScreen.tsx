@@ -3,14 +3,18 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
-export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
+interface SplashScreenProps {
+  onFinish: () => void
+}
+
+export default function SplashScreen({ onFinish }: SplashScreenProps) {
   const [isVisible, setIsVisible] = useState(true)
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false)
       onFinish()
-    }, 3000) // The splash screen will be shown for 3 seconds
+    }, 3000)
 
     return () => clearTimeout(timer)
   }, [onFinish])
