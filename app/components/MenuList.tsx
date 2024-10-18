@@ -9,7 +9,12 @@ interface Menu {
   instructions: string[]
 }
 
-export default function MenuList({ menus, ingredients }: { menus: Menu[], ingredients: string[] }) {
+interface MenuListProps {
+  menus: Menu[]
+  ingredients: string[]
+}
+
+export default function MenuList({ menus, ingredients }: MenuListProps) {
   const [openMenus, setOpenMenus] = useState<number[]>([])
 
   const toggleMenu = (index: number) => {
@@ -20,7 +25,7 @@ export default function MenuList({ menus, ingredients }: { menus: Menu[], ingred
     )
   }
 
-  if (menus.length === 0) {
+  if (!menus || menus.length === 0) {
     return (
       <div className="space-y-4">
         <h2 className="text-2xl font-bold">Menús Sugeridos</h2>
@@ -46,13 +51,13 @@ export default function MenuList({ menus, ingredients }: { menus: Menu[], ingred
               <div className="p-4 bg-gray-50">
                 <h3 className="font-semibold mb-2">Ingredientes:</h3>
                 <ul className="list-disc list-inside mb-4">
-                  {menu.ingredients.map((ingredient, i) => (
+                  {menu.ingredients && menu.ingredients.map((ingredient, i) => (
                     <li key={i} className={ingredients.includes(ingredient) ? "text-green-600" : ""}>{ingredient}</li>
                   ))}
                 </ul>
                 <h3 className="font-semibold mb-2">Instrucciones:</h3>
                 <ol className="list-decimal list-inside">
-                  {menu.instructions.map((instruction, i) => (
+                  {menu.instructions && menu.instructions.map((instruction, i) => (
                     <li key={i}>{instruction}</li>
                   ))}
                 </ol>
