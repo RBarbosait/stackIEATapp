@@ -61,6 +61,8 @@ export default function Home() {
     }
   }
 
+  const isButtonDisabled = isLoading || ingredients.length === 0
+
   return (
     <>
       {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
@@ -80,15 +82,23 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
             <button
               onClick={() => handleGenerateMenu(undefined, false)}
-              className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors shadow-md"
-              disabled={isLoading || ingredients.length === 0}
+              className={`px-6 py-3 text-white rounded-full transition-colors shadow-md ${
+                isButtonDisabled
+                  ? 'bg-gray-300 cursor-not-allowed'
+                  : 'bg-blue-500 hover:bg-blue-600'
+              }`}
+              disabled={isButtonDisabled}
             >
               Generar Nuevos Menús
             </button>
             <button
               onClick={() => handleGenerateMenu(undefined, true)}
-              className="px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors shadow-md"
-              disabled={isLoading || ingredients.length === 0}
+              className={`px-6 py-3 text-white rounded-full transition-colors shadow-md ${
+                isButtonDisabled
+                  ? 'bg-gray-300 cursor-not-allowed'
+                  : 'bg-green-500 hover:bg-green-600'
+              }`}
+              disabled={isButtonDisabled}
             >
               Utilizar solo los ingredientes ingresados
             </button>
