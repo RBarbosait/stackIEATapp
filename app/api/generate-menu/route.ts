@@ -27,8 +27,8 @@ async function callGeminiAPI(ingredients: string[], restrictToIngredients: boole
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
 
   const restrictionText = restrictToIngredients 
-    ? "Utiliza SOLO los ingredientes proporcionados." 
-    : "Puedes utilizar ingredientes adicionales si es necesario."
+    ? "Utiliza EXCLUSIVAMENTE los ingredientes proporcionados. No agregues ningún ingrediente adicional." 
+    : "Puedes utilizar ingredientes adicionales si es necesario, pero prioriza el uso de los ingredientes proporcionados."
 
   const dietaryRestrictions = []
   if (isCeliac) dietaryRestrictions.push("apto para celíacos (sin gluten)")
@@ -45,7 +45,8 @@ async function callGeminiAPI(ingredients: string[], restrictToIngredients: boole
     "Para cada receta, proporciona un título, la lista de ingredientes necesarios y las instrucciones paso a paso.",
     "Formatea la respuesta SOLO como un array de objetos JSON, sin texto adicional antes o después, donde cada objeto representa una receta con las propiedades:",
     "title (string), ingredients (array de strings), e instructions (array de strings).",
-    "Asegúrate de que el JSON sea válido y no contenga errores de formato."
+    "Asegúrate de que el JSON sea válido y no contenga errores de formato.",
+    "Si es imposible crear una receta con los ingredientes dados, devuelve un array vacío."
   ].join(' ')
 
   try {
@@ -62,7 +63,7 @@ async function callGeminiAPI(ingredients: string[], restrictToIngredients: boole
     const parsedMenus = JSON.parse(text)
     console.log('Parsed Menus:', parsedMenus)
 
-    if (!Array.isArray(parsedMenus) || parsedMenus.length === 0) {
+    if (!Array.isArray(parsedMenus)) {
       throw new Error('La respuesta de la API no tiene el formato esperado')
     }
 
