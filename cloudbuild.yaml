@@ -22,6 +22,6 @@ steps:
   - '--region'
   - 'us-central1'
   - '--set-env-vars'
-  - 'GOOGLE_API_KEY=${_GOOGLE_API_KEY}'
+  - 'GOOGLE_API_KEY=AIzaSyA53MNCCag3gLPJtInDcX4ptBQn9hDX6gI'
 images:
 - 'gcr.io/$PROJECT_ID/ieat-app:$COMMIT_SHA'
