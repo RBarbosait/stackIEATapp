@@ -1,27 +1,7 @@
 steps:
+# ... (otros pasos)
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/ieat-function', '.']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/ieat-function']
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: gcloud
-  args:
-  - 'run'
-  - 'deploy'
-  - 'ieat-function'
-  - '--image'
-  - 'gcr.io/$PROJECT_ID/ieat-function'
-  - '--platform'
-  - 'managed'
-  - '--region'
-  - 'us-central1'
-  - '--allow-unauthenticated'
-  - '--set-env-vars=PYTHONUNBUFFERED=1'
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: /bin/bash
-  args:
-  - '-c'
-  - |
-    gcloud run services describe ieat-function --region=us-central1 --format='value(status.url)' | xargs curl -sS -o /dev/null -w '%{http_code}\n' -retry 5 -retry-connrefused --retry-max-time 30
-images:
-- 'gcr.io/$PROJECT_ID/ieat-function'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/ieat-app:$COMMIT_SHA', '.']
+  env:
+  - 'GOOGLE_API_KEY=${_GOOGLE_API_KEY}'
+# ... (resto del archivo)
