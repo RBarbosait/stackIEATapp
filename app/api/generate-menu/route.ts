@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const API_KEY = process.env.GOOGLE_API_KEY
+const API_KEY = 'AIzaSyA53MNCCag3gLPJtInDcX4ptBQn9hDX6gI'
 
 if (!API_KEY) {
   console.error('GOOGLE_API_KEY is not set in environment variables')
